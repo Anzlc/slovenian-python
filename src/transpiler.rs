@@ -30,7 +30,7 @@ pub fn tokenize(program: &String, keywords: &HashMap<&str, &str>) -> Vec<Token> 
     let mut tokens: Vec<Token> = Vec::new();
     let mut buf: String = String::new();
     for c in program.chars() {
-        if " ():\"'".contains(c) {
+        if " ():\"'\n\r".contains(c) {
             tokens.push(
                 Token::new(
                     buf.clone(),

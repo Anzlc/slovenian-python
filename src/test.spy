@@ -1,6 +1,10 @@
-definiraj test():
-    za x v obseg(10):
-        natisni("Živijo")
-    vrni 10
-    
-test()
+vključi time kot t
+
+ime = vnos("Vnesi natisni svoje ime: ")
+natisni(f"Živo, {ime}")
+
+za i v obseg(10, 0, -1):
+    natisni(f"{i}!")
+    t.sleep(.2)
+
+natisni("Vzlet")
