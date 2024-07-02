@@ -1,7 +1,9 @@
 vključi time kot t
 
-ime = vnos("Vnesi natisni svoje ime: ")
+ime = vnos("natisni svoje ime: ")
+svet = "svet"
 natisni(f"Živo, {ime}")
+natisni(svet)
 
 za i v obseg(10, 0, -1):
     natisni(f"{i}!")
