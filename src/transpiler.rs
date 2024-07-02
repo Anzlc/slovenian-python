@@ -30,30 +30,18 @@ pub fn tokenize(program: &String, keywords: &HashMap<&str, &str>) -> Vec<Token> 
     let mut tokens: Vec<Token> = Vec::new();
     let mut buf: String = String::new();
     for c in program.chars() {
-        buf.push(c);
-        if c.is_whitespace() && !buf.is_empty() {
+        if " ():\"'".contains(c) {
             tokens.push(
                 Token::new(
-                    buf.to_string(),
-                    keywords.values().any(|x| x.to_string() == buf)
+                    buf.clone(),
+                    keywords.keys().any(|x| x.to_string() == buf)
                 )
             );
             buf.clear();
+            tokens.push(Token::new(c.to_string(), false));
+            continue;
         }
-
-        // if c.is_whitespace() && !buf.is_empty() {
-        //     tokens.push(
-        //         Token::new(
-        //             buf.to_string(),
-        //             keywords.values().any(|x| x.to_string() == buf)
-        //         )
-        //     );
-        //     buf.clear();
-        // } else if c.is_whitespace() {
-        //     tokens.push(Token::new(" ".to_string(), false));
-        // } else {
-        //     buf.push(c);
-        // }
+        buf.push(c);
     }
     return tokens;
 }

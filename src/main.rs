@@ -9,6 +9,9 @@ fn main() {
     keywords.insert("dokler", "while");
     keywords.insert("vključi", "import");
     keywords.insert("iz", "from");
+    keywords.insert("vrni", "return");
+    keywords.insert("natisni", "print");
+    keywords.insert("obseg", "range");
 
     let program = read_to_string("./src/test.py").unwrap();
     let tokens = tokenize(&program, &keywords);
