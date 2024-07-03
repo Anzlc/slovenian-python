@@ -14,6 +14,7 @@ fn main() {
 
     opts.optopt("t", "transpile", "Create a python file from .spy", "PATH");
     opts.optopt("r", "run", "Run the .spy program", "PATH");
+    opts.optopt("p", "preview", "Preview transpiled the .spy program", "PATH");
     opts.optflag("h", "help", "Get help (output this screen)");
 
     let matches = opts.parse(&args[1..]).unwrap_or_else(|f| {
@@ -30,6 +31,9 @@ fn main() {
         run(&path);
     } else if let Some(path) = matches.opt_str("t") {
         transpile_and_write(&path);
+        println!("Done");
+    } else if let Some(path) = matches.opt_str("p") {
+        preview(&path);
         println!("Done");
     } else if args.len() == 2 {
         run(&args[1]);
@@ -67,6 +71,18 @@ fn transpile_and_write(path: &str) {
                 Ok(_) => {}
                 Err(e) => println!("Error while writing file: {e}"),
             }
+        }
+        Err(e) => println!("Error while reading file: {e}"),
+    }
+}
+
+fn preview(path: &str) {
+    match read_to_string(path) {
+        Ok(program) => {
+            let tokens = tokenize(&program);
+            //println!("{:#?}", tokens);
+            let new_program = transpile(&tokens);
+            println!("{new_program}");
         }
         Err(e) => println!("Error while reading file: {e}"),
     }

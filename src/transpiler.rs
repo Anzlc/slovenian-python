@@ -17,6 +17,29 @@ static KEYWORDS: phf::Map<
     "kot" => "as",
     "vnos" => "input",
     "če" => "if",
+    "drugače" => "else",
+    "drugačeče" => "elif",
+    "in" => "and",
+    "ali" => "or",
+    "razred" => "class",
+    "preveri" => "assert",
+    "zlomi" => "break",
+    "nadaljuj" => "continue",
+    "izbriši" => "del",
+    "razen" => "except",
+    "Ne" => "False",
+    "Da" => "True",
+    "končno" => "finally",
+    "globalno" => "global",
+    "je" => "is",
+    "Nič" => "None",
+    "nelokalen" => "nonlocal",
+    "ne" => "not",
+    "brez" => "pass",
+    "dvigni" => "raise",
+    "poskusi" => "try",
+    "z" => "with",
+    "dajaj" => "yield",
 };
 
 #[derive(Debug)]
@@ -56,7 +79,7 @@ pub fn tokenize(program: &String) -> Vec<Token> {
     pairs.insert("\"", "\"");
     pairs.insert("'", "'");
 
-    let single_tokens = ": \n\r.=()[]";
+    let single_tokens = ": \n\r.=()[]\t";
 
     let mut i: usize = 0;
     while i < program.chars().count() {
