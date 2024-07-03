@@ -68,6 +68,24 @@ Other options:
 -h, --help          Get help (output this screen)
 ```
 
+## Example
+
+```
+vključi random kot r
+
+ugib = int(vnos("Vnesi št od 1-10: "))
+
+naključna = r.randrange(1, 10)
+
+dokler ugib != naključna:
+    če ugib > naključna:
+        natisni("Preveč")
+    drugače:
+        natisni("Premalo")
+    ugib = int(vnos("Vnesi št od 1-10: "))
+natisni(f"Bravo, naključna št je bila {naključna}")
+```
+
 ## Contributing
 
-If you find any issues open an Issue or make a pr.
+If you find any bugs or issues open an Issue or make a pr.
