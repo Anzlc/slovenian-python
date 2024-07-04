@@ -52,9 +52,9 @@ impl Token {
     fn new(value: String, is_keyword: bool) -> Token {
         Token { value, is_keyword }
     }
-    fn from_string(value: &String) -> Token {
+    fn from_string(value: String) -> Token {
         let tmp = value.clone();
-        Token::new(value.to_string(), KEYWORDS.contains_key(tmp.as_str()))
+        Token::new(value, KEYWORDS.contains_key(tmp.as_str()))
     }
     fn get_new_value(&self) -> String {
         if !self.is_keyword {
@@ -88,7 +88,7 @@ pub fn tokenize(program: &String) -> Vec<Token> {
 
         if pairs.contains_key(ch) {
             if buf.len() > 0 {
-                tokens.push(Token::from_string(&buf.to_string()));
+                tokens.push(Token::from_string(buf.to_string()));
                 buf.clear();
             }
             let pair = pairs.get(ch).unwrap(); // Can safely unwrap because we check it before
@@ -100,17 +100,17 @@ pub fn tokenize(program: &String) -> Vec<Token> {
                 j += 1;
             }
             buf.push_str(pairs.get(ch).unwrap());
-            tokens.push(Token::from_string(&buf.to_string()));
+            tokens.push(Token::from_string(buf.to_string()));
             buf.clear();
             i = j + 1;
 
             continue;
         } else if single_tokens.contains(ch) {
             if buf.len() > 0 {
-                tokens.push(Token::from_string(&buf.to_string()));
+                tokens.push(Token::from_string(buf.to_string()));
                 buf.clear();
             }
-            tokens.push(Token::from_string(&ch.to_string()));
+            tokens.push(Token::from_string(ch.to_string()));
         } else {
             buf.push_str(ch);
         }
