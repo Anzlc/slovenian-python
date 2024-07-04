@@ -64,7 +64,7 @@ Other options:
 -t, --transpile PATH
                         Create a python file from .spy
 -r, --run PATH      Run the .spy program
--p, --preview PATH  Preview transpiled the .spy program
+-p, --preview PATH  Preview transpiled .spy program
 -h, --help          Get help (output this screen)
 ```
 

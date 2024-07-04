@@ -14,7 +14,7 @@ fn main() {
 
     opts.optopt("t", "transpile", "Create a python file from .spy", "PATH");
     opts.optopt("r", "run", "Run the .spy program", "PATH");
-    opts.optopt("p", "preview", "Preview transpiled the .spy program", "PATH");
+    opts.optopt("p", "preview", "Preview transpiled .spy program", "PATH");
     opts.optflag("h", "help", "Get help (output this screen)");
 
     let matches = opts.parse(&args[1..]).unwrap_or_else(|f| {
