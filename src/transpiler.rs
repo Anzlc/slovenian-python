@@ -45,29 +45,15 @@ static KEYWORDS: phf::Map<
 #[derive(Debug)]
 pub struct Token {
     value: String,
-    is_keyword: bool,
 }
 
 impl Token {
-    fn new(value: String, is_keyword: bool) -> Token {
-        Token { value, is_keyword }
+    fn new(value: String) -> Token {
+        Token { value }
     }
-    fn from_string(value: String) -> Token {
-        let tmp = value.clone();
-        Token::new(value, KEYWORDS.contains_key(tmp.as_str()))
-    }
+
     fn get_new_value(&self) -> String {
-        if !self.is_keyword {
-            return self.value.to_string();
-        }
-        match KEYWORDS.get(self.value.as_str()) {
-            Some(x) => {
-                return x.to_string();
-            }
-            None => {
-                return self.value.to_string();
-            }
-        }
+        KEYWORDS.get(self.value.as_str()).unwrap_or(&self.value.as_str()).to_string()
     }
 }
 
@@ -81,40 +67,40 @@ pub fn tokenize(program: &String) -> Vec<Token> {
 
     let single_tokens = ": \n\r.=()[]\t";
 
-    let mut i: usize = 0;
-    while i < program.chars().count() {
-        let tmp = program.chars().nth(i).unwrap().to_string();
+    let mut chars = program.chars().peekable();
+    while let Some(ch) = chars.next() {
+        let tmp = ch.to_string();
         let ch = tmp.as_str();
-
         if pairs.contains_key(ch) {
             if buf.len() > 0 {
-                tokens.push(Token::from_string(buf.to_string()));
+                tokens.push(Token::new(buf.to_string()));
                 buf.clear();
             }
             let pair = pairs.get(ch).unwrap(); // Can safely unwrap because we check it before
             buf.push_str(ch);
-            let mut j = i + 1;
 
-            while j < program.len() && &program.chars().nth(j).unwrap().to_string() != pair {
-                buf.push_str(&program.chars().nth(j).unwrap().to_string());
-                j += 1;
+            while let Some(&new_ch) = chars.peek() {
+                buf.push(new_ch);
+                chars.next();
+                if new_ch.to_string() == pair.to_string() {
+                    break;
+                }
             }
-            buf.push_str(pairs.get(ch).unwrap());
-            tokens.push(Token::from_string(buf.to_string()));
+
+            //buf.push_str(pairs.get(ch).unwrap());
+            tokens.push(Token::new(buf.to_string()));
             buf.clear();
-            i = j + 1;
 
             continue;
         } else if single_tokens.contains(ch) {
             if buf.len() > 0 {
-                tokens.push(Token::from_string(buf.to_string()));
+                tokens.push(Token::new(buf.to_string()));
                 buf.clear();
             }
-            tokens.push(Token::from_string(ch.to_string()));
+            tokens.push(Token::new(ch.to_string()));
         } else {
             buf.push_str(ch);
         }
-        i += 1;
     }
     return tokens;
 }
