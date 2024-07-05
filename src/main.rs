@@ -1,4 +1,5 @@
 use std::fs::read_to_string;
+use std::time::{ Instant, SystemTime };
 mod transpiler;
 mod file;
 use file::write_and_empty;
@@ -65,7 +66,6 @@ fn transpile_and_write(path: &str) {
     match read_to_string(path) {
         Ok(program) => {
             let tokens = tokenize(&program);
-            //println!("{:#?}", tokens);
             let new_program = transpile(&tokens);
             match write_and_empty(&spy_to_py(path), &new_program) {
                 Ok(_) => {}
@@ -79,9 +79,13 @@ fn transpile_and_write(path: &str) {
 fn preview(path: &str) {
     match read_to_string(path) {
         Ok(program) => {
+            let start = Instant::now();
             let tokens = tokenize(&program);
-            //println!("{:#?}", tokens);
+
             let new_program = transpile(&tokens);
+
+            let end = Instant::now();
+            println!("Done in {} μs", (end - start).as_micros());
             println!("{new_program}");
         }
         Err(e) => println!("Error while reading file: {e}"),
@@ -96,6 +100,6 @@ fn spy_to_py(path: &str) -> String {
 }
 
 fn get_help(opts: Options) {
-    let brief = "Usage: piton FILE [options]";
+    let brief = "Usage: piton [options] FILE";
     print!("{}", opts.usage(&brief));
 }
