@@ -65,18 +65,18 @@ pub fn tokenize(program: &String) -> Vec<Token> {
     pairs.insert("\"", "\"");
     pairs.insert("'", "'");
 
-    let single_tokens = ": \n\r.=()[]\t";
+    let single_tokens = ": \n\r=()[]\t";
 
     let mut chars = program.chars().peekable();
     while let Some(ch) = chars.next() {
         let tmp = ch.to_string();
         let ch = tmp.as_str();
-        if pairs.contains_key(ch) {
+        if let Some(&pair) = pairs.get(&ch) {
             if buf.len() > 0 {
                 tokens.push(Token::new(buf.to_string()));
                 buf.clear();
             }
-            let pair = pairs.get(ch).unwrap(); // Can safely unwrap because we check it before
+            // Can safely unwrap because we check it before
             buf.push_str(ch);
 
             while let Some(&new_ch) = chars.peek() {
@@ -86,11 +86,8 @@ pub fn tokenize(program: &String) -> Vec<Token> {
                     break;
                 }
             }
-
-            //buf.push_str(pairs.get(ch).unwrap());
             tokens.push(Token::new(buf.to_string()));
             buf.clear();
-
             continue;
         } else if single_tokens.contains(ch) {
             if buf.len() > 0 {
@@ -102,14 +99,12 @@ pub fn tokenize(program: &String) -> Vec<Token> {
             buf.push_str(ch);
         }
     }
-    return tokens;
+    tokens
 }
 pub fn transpile(tokens: &Vec<Token>) -> String {
-    let new_tokens = tokens
+    tokens
         .iter()
         .map(|token| token.get_new_value())
         .collect::<Vec<String>>()
-        .join("");
-
-    new_tokens
+        .join("")
 }

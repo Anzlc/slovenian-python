@@ -1,5 +1,5 @@
 use std::fs::read_to_string;
-use std::time::{ Instant, SystemTime };
+use std::time::Instant;
 mod transpiler;
 mod file;
 use file::write_and_empty;
