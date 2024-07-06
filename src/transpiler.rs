@@ -76,13 +76,12 @@ pub fn tokenize(program: &String) -> Vec<Token> {
                 tokens.push(Token::new(buf.to_string()));
                 buf.clear();
             }
-            // Can safely unwrap because we check it before
             buf.push_str(ch);
 
             while let Some(&new_ch) = chars.peek() {
                 buf.push(new_ch);
                 chars.next();
-                if new_ch.to_string() == pair.to_string() {
+                if new_ch.to_string().as_str() == pair {
                     break;
                 }
             }
