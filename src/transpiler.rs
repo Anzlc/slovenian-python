@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use phf::phf_map;
 
 static KEYWORDS: phf::Map<
@@ -42,6 +41,11 @@ static KEYWORDS: phf::Map<
     "dajaj" => "yield",
 };
 
+static PAIRS: phf::Map<&'static str, &'static str> = phf_map! {
+    "\"" => "\"",
+    "'" => "'"
+};
+
 #[derive(Debug)]
 pub struct Token {
     value: String,
@@ -61,9 +65,6 @@ pub fn tokenize(program: &String) -> Vec<Token> {
     let mut tokens: Vec<Token> = Vec::new();
 
     let mut buf: String = String::new();
-    let mut pairs: HashMap<&str, &str> = HashMap::new();
-    pairs.insert("\"", "\"");
-    pairs.insert("'", "'");
 
     let single_tokens = ": \n\r=()[]\t";
 
@@ -71,7 +72,7 @@ pub fn tokenize(program: &String) -> Vec<Token> {
     while let Some(ch) = chars.next() {
         let tmp = ch.to_string();
         let ch = tmp.as_str();
-        if let Some(&pair) = pairs.get(&ch) {
+        if let Some(&pair) = PAIRS.get(ch) {
             if buf.len() > 0 {
                 tokens.push(Token::new(buf.to_string()));
                 buf.clear();
