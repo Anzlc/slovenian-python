@@ -51,7 +51,7 @@ I built a simple tokenizer that splits keywords while keeping parts like string 
 
 ## How to use
 
-If you want to use this program it is very simple download the .exe from Releases tab and if you want to use it anywhere add the file to Path.
+If you want to use this program it is very simple download the .exe from Releases tab and if you want to use it anywhere add the file to Path. To run the code you must have Python installed on your system.
 Then you can simply run
 
 ```bash
