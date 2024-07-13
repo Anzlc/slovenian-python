@@ -67,6 +67,9 @@ Other options:
 -p, --preview PATH  Preview transpiled .spy program
 -h, --help          Get help (output this screen)
 ```
+## Syntax highlighting
+
+If you want some basic syntax highlighting you can istalll **VS Code** extension from this (repo)[https://github.com/Anzlc/slovenian-python-highlighting]. Go to releases and download the latest version. Then open extensions panel and click the 3-dots and select **Install from VSIX...**. Then select the downloaded file.
 
 ## Example
 
